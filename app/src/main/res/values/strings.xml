@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">WeatherMapProject</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="username_not_found">Username tidak ditemukan</string>
+    <string name="wrong_pin">PIN salah</string>
+    <string name="registrasi">Registrasi</string>
+    <string name="registrasi_sukses">Pendaftaran Berhasil</string>
+    <string name="cuaca">Cuaca</string>
+    <string name="profil">Profil</string>
+    <string name="profil_updated">Berhasil memperbarui profil Anda</string>
+    <string name="suretoexit">Apakah anda yakin ingin keluar akun?</string>
+    <string name="exit">Keluar</string>
+    <string name="cancel">Batal</string>
+    <string name="masuk">Masuk</string>
+    <string name="username">Username</string>
+    <string name="pin">PIN</string>
+    <string name="daftar">Daftar</string>
+    <string name="lupa_pin_anda">Lupa PIN Anda?</string>
+    <string name="location_permission">location Permission</string>
+    <string name="weathermapproject_requires_access_to_your_current_location_please_enable_location_manually_via_app_settings">WeatherMapProject requires access to your current location. Please enable location manually via app settings.</string>
+    <string name="continues">Continue</string>
+    <string name="reject">Reject</string>
+    <string name="nama">Nama</string>
+    <string name="e_mail">E-mail</string>
+    <string name="keluar">Keluar</string>
+    <string name="perbarui">Perbarui</string>
+    <string name="city_name">City Name</string>
+    <string name="lattitude">Lattitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="save">Simpan</string>
+    <string name="tambahkan_kota">Tambahkan Kota</string>
+    <string name="succesadded">Successfully Added</string>
+</resources>

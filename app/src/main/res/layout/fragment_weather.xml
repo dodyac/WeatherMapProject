@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.weather.FragmentWeather">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/icon"
+                android:layout_width="@dimen/image_size_extra_large"
+                android:layout_height="@dimen/image_size_extra_large"
+                android:layout_marginTop="@dimen/x70dp"
+                android:layout_marginBottom="@dimen/x8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true" />
+
+            <com.acxdev.shimmer.widget.ShimmerText
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x60dp"
+                android:layout_marginEnd="@dimen/x60dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon" />
+
+            <com.acxdev.shimmer.widget.ShimmerText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x60dp"
+                android:layout_marginTop="@dimen/x16dp"
+                android:layout_marginEnd="@dimen/x60dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/desc" />
+
+            <com.acxdev.shimmer.widget.ShimmerText
+                android:id="@+id/temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x60dp"
+                android:layout_marginTop="@dimen/x4dp"
+                android:layout_marginEnd="@dimen/x60dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_header"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date" />
+
+            <View
+                android:layout_width="0.7dp"
+                android:layout_height="@dimen/x14dp"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/pressure"
+                app:layout_constraintEnd_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/pressure" />
+
+            <com.acxdev.shimmer.widget.ShimmerText
+                android:id="@+id/pressure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x60dp"
+                android:layout_marginTop="@dimen/x8dp"
+                android:layout_marginEnd="@dimen/x8dp"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small"
+                app:layout_constraintEnd_toEndOf="@id/guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temp" />
+
+            <com.acxdev.shimmer.widget.ShimmerText
+                android:id="@+id/humidity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x8dp"
+                android:layout_marginTop="@dimen/x8dp"
+                android:layout_marginEnd="@dimen/x60dp"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/temp" />
+
+            <com.acxdev.shimmer.widget.ShimmerRecycler
+                android:id="@+id/weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:padding="@dimen/x16dp"
+                app:child="3"
+                app:grid="4"
+                app:layout="@layout/row_weather"
+                app:layout_constraintTop_toBottomOf="@id/humidity"
+                app:layout_manager="grid" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addCity"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_margin="@dimen/x16dp"
+                android:text="@string/tambahkan_kota"
+                android:textColor="@color/blue"
+                app:backgroundTint="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/weather" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>
