@@ -17,13 +17,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/actStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchTil"
+                android:layout_margin="@dimen/x16dp"
+                android:hint="@string/find_city"
+                app:layout_constraintTop_toTopOf="parent"
+                app:startIconDrawable="@drawable/anim_loading"
+                app:startIconTint="@color/blue">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/search"
+                    android:layout_height="match_parent"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.5" />
-
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/icon"
@@ -33,7 +50,7 @@
                 android:layout_marginBottom="@dimen/x8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchTil"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true" />
 
@@ -145,17 +162,6 @@
                 app:layout="@layout/row_weather"
                 app:layout_constraintTop_toBottomOf="@id/humidity"
                 app:layout_manager="grid" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/addCity"
-                style="@style/buttonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:layout_margin="@dimen/x16dp"
-                android:text="@string/tambahkan_kota"
-                android:textColor="@color/blue"
-                app:backgroundTint="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/weather" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>

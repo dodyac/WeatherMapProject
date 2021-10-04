@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/x16dp">
+        android:paddingStart="@dimen/x16dp"
+        android:paddingTop="@dimen/x16dp"
+        android:paddingEnd="@dimen/x16dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/username"
@@ -63,24 +65,5 @@
                 android:layout_height="match_parent"
                 android:inputType="numberPassword" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/simpan"
-            style="@style/buttonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginTop="@dimen/x16dp"
-            android:text="@string/daftar" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/keluar"
-            style="@style/buttonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginTop="@dimen/x16dp"
-            android:text="@string/keluar"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            app:backgroundTint="@color/red" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -16,10 +16,12 @@ import com.acxdev.weathermapproject.common.BaseFragment
 import com.acxdev.weathermapproject.common.Constant
 import com.acxdev.weathermapproject.data.model.User
 import com.acxdev.weathermapproject.databinding.FragmentProfileBinding
+import com.acxdev.weathermapproject.ui.activity.ActivityResetPin
 import com.acxdev.weathermapproject.ui.activity.ActivitySignIn
 import com.acxdev.weathermapproject.util.isNotEmpty
 import com.acxdev.weathermapproject.util.setText
 import com.acxdev.weathermapproject.util.toEditString
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import dev.shreyaspatil.MaterialDialog.MaterialDialog
 import kotlinx.coroutines.launch
@@ -34,6 +36,8 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+            profile.username.isEnabled = false
+
             lifecycleScope.launch {
                 val username = requireContext().getPrefs().getString(Constant.USER_LOGGED,"")!!
                 val user = dao.getUser(username)
@@ -42,39 +46,57 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
                 profile.name.setText(user.name)
                 profile.password.setText(user.pin)
 
-                profile.simpan.setOnClickListener {
+                simpan.setOnClickListener {
                     if(profile.username.isNotEmpty() && profile.mail.alertMail() && profile.name.isNotEmpty() && profile.password.isNotEmpty()) {
                         val userNew = User(
                             user.id, profile.username.toEditString(),
                             profile.mail.toEditString(),
                             profile.name.toEditString(),
-                            profile.password.toEditString()
+                            user.pin
                         )
 
                         lifecycleScope.launch {
-                            if(dao.isUsernameExist(profile.username.toEditString())) {
-                                toasty(
-                                    Toast.ERROR,
-                                    getString(
-                                        R.string.username_already_used,
-                                        profile.username.toEditString()
+                            when {
+                                user.username == profile.username.toEditString() -> {
+                                    dao.updateUser(userNew)
+                                    toasty(
+                                        Toast.SUCCESS,
+                                        R.string.profil_updated
                                     )
-                                )
-                            } else {
-                                dao.updateUser(userNew)
-                                toasty(Toast.SUCCESS,
-                                    R.string.profil_updated
-                                )
+                                }
+                                dao.isUsernameExist(profile.username.toEditString()) -> {
+                                    toasty(
+                                        Toast.ERROR,
+                                        getString(
+                                            R.string.username_already_used,
+                                            profile.username.toEditString()
+                                        )
+                                    )
+                                }
+                                else -> {
+                                    dao.updateUser(userNew)
+                                    toasty(
+                                        Toast.SUCCESS,
+                                        R.string.profil_updated
+                                    )
+                                }
                             }
                         }
                     }
                 }
+
+                gantiPin.setOnClickListener {
+                    Intent(requireContext(), ActivityResetPin::class.java)
+                        .putExtra(Constant.USER_LOGGED, Gson().toJson(user))
+                        .also {
+                            startActivity(it)
+                        }
+                }
             }
 
-            profile.simpan.text = getString(R.string.perbarui)
+            profile.password.visibility = gone
 
-            profile.keluar.visibility = visible
-            profile.keluar.setOnClickListener {
+            keluar.setOnClickListener {
                 MaterialDialog.Builder(requireActivity())
                     .setAnimation(R.raw.sign_out)
                     .setMessage(getString(R.string.suretoexit))

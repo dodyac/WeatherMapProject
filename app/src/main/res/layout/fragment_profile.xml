@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,7 +20,34 @@
                 android:id="@+id/profile"
                 layout="@layout/layout_profile" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/simpan"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginStart="@dimen/x16dp"
+                android:layout_marginTop="@dimen/x16dp"
+                android:layout_marginEnd="@dimen/x16dp"
+                android:text="@string/perbarui" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/gantiPin"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginStart="@dimen/x16dp"
+                android:layout_marginEnd="@dimen/x16dp"
+                android:text="@string/reset_pin" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/keluar"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_margin="@dimen/x16dp"
+                android:text="@string/keluar"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/red" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </FrameLayout>

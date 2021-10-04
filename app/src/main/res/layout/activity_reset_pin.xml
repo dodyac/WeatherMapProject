@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".ui.activity.ActivitySignUp">
+    tools:context=".ui.activity.ActivityResetPin">
 
     <include
         android:id="@+id/toolbar"
@@ -20,19 +20,42 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/x16dp">
 
-            <include
-                android:id="@+id/profile"
-                layout="@layout/layout_profile" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/currentPassword"
+                style="@style/tilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/currentPin"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password"
+                style="@style/tilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/pinNew"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/verify_password"
                 style="@style/tilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/x16dp"
-                android:layout_marginEnd="@dimen/x16dp"
                 android:hint="@string/verifyPin"
                 app:passwordToggleEnabled="true">
 
@@ -42,14 +65,13 @@
                     android:inputType="numberPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/simpan"
+                android:id="@+id/gantiPin"
                 style="@style/buttonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
-                android:layout_margin="@dimen/x16dp"
-                android:text="@string/daftar" />
+                android:layout_marginTop="@dimen/x16dp"
+                android:text="@string/reset_pin" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

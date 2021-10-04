@@ -2,6 +2,9 @@ package com.acxdev.weathermapproject.di
 
 import com.acxdev.weathermapproject.data.OpenWeatherMapApi
 import com.acxdev.weathermapproject.common.Constant
+import com.acxdev.weathermapproject.data.CityApi
+import com.acxdev.weathermapproject.repository.CityRepository
+import com.acxdev.weathermapproject.repository.DefaultCityRepository
 import com.acxdev.weathermapproject.repository.DefaultOpenWeatherMapRepository
 import com.acxdev.weathermapproject.repository.OpenWeatherMapRepository
 import com.acxdev.weathermapproject.util.DispatcherProvider
@@ -22,28 +25,38 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    private fun retrofit(baseUrl: String): Retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(
+                    HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BASIC)
+                )
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build()
+        ).build()
+
     @Singleton
     @Provides
-    fun openWeatherMapApi(): OpenWeatherMapApi =
-        Retrofit.Builder()
-            .baseUrl(Constant.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(
-                OkHttpClient.Builder()
-                    .addInterceptor(
-                        HttpLoggingInterceptor()
-                            .setLevel(HttpLoggingInterceptor.Level.BASIC)
-                    )
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .build()
-            ).build().create(OpenWeatherMapApi::class.java)
+    fun openWeatherMapApi(): OpenWeatherMapApi = retrofit(Constant.BASE_URL_OPEN_WEATHER).create(OpenWeatherMapApi::class.java)
 
     @Singleton
     @Provides
     fun provideOpenWeatherMapRepository(api: OpenWeatherMapApi): OpenWeatherMapRepository =
         DefaultOpenWeatherMapRepository(api)
+
+    @Singleton
+    @Provides
+    fun cityApi(): CityApi = retrofit(Constant.BASE_URL_CITY).create(CityApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideCityRepository(api: CityApi): CityRepository =
+        DefaultCityRepository(api)
 
     @Singleton
     @Provides

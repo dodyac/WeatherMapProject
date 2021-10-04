@@ -20,13 +20,14 @@ import com.acxdev.weathermapproject.common.BaseFragment
 import com.acxdev.weathermapproject.common.Constant
 import com.acxdev.weathermapproject.common.CurrentLocation
 import com.acxdev.weathermapproject.common.LocationListenerX
+import com.acxdev.weathermapproject.data.model.City
 import com.acxdev.weathermapproject.databinding.FragmentWeatherBinding
+import com.acxdev.weathermapproject.util.setItem
 import com.acxdev.weathermapproject.util.setWeatherIcon
 import com.acxdev.weathermapproject.util.toCelcius
 import com.airbnb.lottie.LottieDrawable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import java.util.*
 
 @AndroidEntryPoint
 class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
@@ -35,6 +36,8 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
         get() = FragmentWeatherBinding::inflate
 
     private val weatherViewModel: WeatherViewModel by viewModels()
+    private val cityViewModel: CityViewModel by viewModels()
+    private lateinit var listCity: List<City>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,10 +77,33 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
             }
         }
 
-        binding.addCity.setOnClickListener {
-
+        lifecycleScope.launchWhenStarted {
+            cityViewModel.getCity.collect{
+                when (it) {
+                    is CityViewModel.CityEvent.Success -> {
+                        binding.searchTil.isStartIconVisible = false
+                        binding.search.setItem(it.list.map { city -> city.city })
+                        listCity = it.list
+                        binding.search.setOnItemClickListener { parent, _, position, _ ->
+                            val selection = parent.getItemAtPosition(position) as String
+                            for(city in listCity) if(city.city == selection) {
+                                binding.location.text = city.city
+                                weatherViewModel.getWeather(city.latitude, city.longitude, Constant.EXCLUDE_OPEN_WEATHER_MAP)
+                            }
+                        }
+                    }
+                    is CityViewModel.CityEvent.Failure -> {
+                        binding.searchTil.isStartIconVisible = false
+                        it.message?.let { it1 -> toasty(Toast.ERROR, it1) }
+                    }
+                    is CityViewModel.CityEvent.Loading -> {
+                        binding.searchTil.isStartIconVisible = true
+                    }
+                }
+            }
         }
 
+        cityViewModel.getCity()
         initLocation()
     }
 

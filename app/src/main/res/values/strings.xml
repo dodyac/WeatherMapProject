@@ -14,6 +14,7 @@
     <string name="masuk">Masuk</string>
     <string name="username">Username</string>
     <string name="pin">PIN</string>
+    <string name="verifyPin">Ketik Ulang PIN</string>
     <string name="daftar">Daftar</string>
     <string name="lupa_pin_anda">Lupa PIN Anda?</string>
     <string name="location_permission">location Permission</string>
@@ -31,4 +32,9 @@
     <string name="tambahkan_kota">Tambahkan Kota</string>
     <string name="succesadded">Successfully Added</string>
     <string name="username_already_used">Username %s telah digunakan</string>
+    <string name="find_city">Cari Kota</string>
+    <string name="reset_pin">Ganti PIN</string>
+    <string name="currentPin">PIN saat ini</string>
+    <string name="pinNew">PIN Baru</string>
+    <string name="pin_updated">PIN Berhasil diperbarui</string>
 </resources>

@@ -12,6 +12,7 @@ import com.acxdev.weathermapproject.common.BaseActivity
 import com.acxdev.weathermapproject.databinding.ActivityRegisterBinding
 import com.acxdev.weathermapproject.data.model.User
 import com.acxdev.weathermapproject.util.Toolbar.setToolbar
+import com.acxdev.weathermapproject.util.isEqual
 import com.acxdev.weathermapproject.util.isNotEmpty
 import com.acxdev.weathermapproject.util.toEditString
 import kotlinx.coroutines.launch
@@ -26,8 +27,8 @@ class ActivitySignUp : BaseActivity<ActivityRegisterBinding>() {
         binding.apply {
             toolbar.setToolbar(R.string.registrasi)
 
-            profile.simpan.setOnClickListener {
-                if (profile.username.isNotEmpty() && profile.mail.alertMail() && profile.name.isNotEmpty() && profile.password.isNotEmpty()) {
+            simpan.setOnClickListener {
+                if (profile.username.isNotEmpty() && profile.mail.alertMail() && profile.name.isNotEmpty() && profile.password.isEqual(verifyPassword)) {
                     val user = User(
                         0,
                         profile.username.toEditString(),
@@ -40,9 +41,9 @@ class ActivitySignUp : BaseActivity<ActivityRegisterBinding>() {
                             toasty(
                                 Toast.ERROR,
                                 getString(
-                                    R.string.username_already_used,
-                                    profile.username.toEditString()
-                                )
+                                        R.string.username_already_used,
+                                        profile.username.toEditString()
+                                    )
                             )
                         } else {
                             dao.insertUser(user)

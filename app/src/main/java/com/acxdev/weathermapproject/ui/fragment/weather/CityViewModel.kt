@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.acxdev.weathermapproject.data.model.weather.WeatherOneCallResponse
 import com.acxdev.weathermapproject.common.Constant
+import com.acxdev.weathermapproject.data.model.City
+import com.acxdev.weathermapproject.repository.CityRepository
 import com.acxdev.weathermapproject.repository.OpenWeatherMapRepository
 import com.acxdev.weathermapproject.util.DispatcherProvider
 import com.acxdev.weathermapproject.util.Resource
@@ -15,8 +17,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WeatherViewModel @Inject constructor(
-    private val repository: OpenWeatherMapRepository,
+class CityViewModel @Inject constructor(
+    private val repository: CityRepository,
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {
 
@@ -24,24 +26,24 @@ class WeatherViewModel @Inject constructor(
         throwable.printStackTrace()
     }
 
-    sealed class WeatherEvent {
-        class Success(val weatherOneCallResponse: WeatherOneCallResponse) : WeatherEvent()
-        class Failure(val message: String?) : WeatherEvent()
-        object Loading : WeatherEvent()
+    sealed class CityEvent {
+        class Success(val list: List<City>) : CityEvent()
+        class Failure(val message: String?) : CityEvent()
+        object Loading : CityEvent()
     }
 
-    private val _getWeather = MutableStateFlow<WeatherEvent>(WeatherEvent.Loading)
-    val getWeather: StateFlow<WeatherEvent> = _getWeather
+    private val _getCity = MutableStateFlow<CityEvent>(CityEvent.Loading)
+    val getCity: StateFlow<CityEvent> = _getCity
 
-    fun getWeather(lat: Double, lon: Double, exclude: String) {
+    fun getCity() {
         viewModelScope.launch(dispatchers.io + exceptionHandler) {
-            _getWeather.value = WeatherEvent.Loading
+            _getCity.value = CityEvent.Loading
             when (val response =
-                repository.weather(lat, lon, exclude, Constant.API_KEY)) {
-                is Resource.Error -> _getWeather.value =
-                    WeatherEvent.Failure(response.message)
+                repository.getCity()) {
+                is Resource.Error -> _getCity.value =
+                    CityEvent.Failure(response.message)
                 is Resource.Success -> {
-                    _getWeather.value = WeatherEvent.Success(response.data!!)
+                    _getCity.value = CityEvent.Success(response.data!!)
                 }
             }
         }
