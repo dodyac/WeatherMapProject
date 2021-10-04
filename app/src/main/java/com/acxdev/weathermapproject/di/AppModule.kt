@@ -1,9 +1,9 @@
 package com.acxdev.weathermapproject.di
 
 import com.acxdev.weathermapproject.data.OpenWeatherMapApi
-import com.acxdev.weathermapproject.repository.OpenWeatherMapRepository
 import com.acxdev.weathermapproject.common.Constant
 import com.acxdev.weathermapproject.repository.DefaultOpenWeatherMapRepository
+import com.acxdev.weathermapproject.repository.OpenWeatherMapRepository
 import com.acxdev.weathermapproject.util.DispatcherProvider
 import dagger.Module
 import dagger.Provides

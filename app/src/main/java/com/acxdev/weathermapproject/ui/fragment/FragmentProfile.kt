@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.Toast
 import com.acxdev.commonFunction.util.Preference.Companion.getPrefs
 import com.acxdev.commonFunction.util.Preference.Companion.logout
 import com.acxdev.commonFunction.util.Toast.Companion.toasty
 import com.acxdev.commonFunction.util.view.ITextInputLayout.Companion.alertMail
-import com.acxdev.sqlitez.SqliteZAsset.Companion.updateDBDefaultPrimary
 import com.acxdev.weathermapproject.R
 import com.acxdev.weathermapproject.common.BaseFragment
 import com.acxdev.weathermapproject.common.Constant
@@ -20,8 +20,11 @@ import com.acxdev.weathermapproject.ui.activity.ActivitySignIn
 import com.acxdev.weathermapproject.util.isNotEmpty
 import com.acxdev.weathermapproject.util.setText
 import com.acxdev.weathermapproject.util.toEditString
+import dagger.hilt.android.AndroidEntryPoint
 import dev.shreyaspatil.MaterialDialog.MaterialDialog
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ViewBinding
@@ -31,29 +34,44 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            profile.username.setText(user.username)
-            profile.mail.setText(user.email)
-            profile.name.setText(user.name)
-            profile.password.setText(user.pin)
+            lifecycleScope.launch {
+                val username = requireContext().getPrefs().getString(Constant.USER_LOGGED,"")!!
+                val user = dao.getUser(username)
+                profile.username.setText(user.username)
+                profile.mail.setText(user.email)
+                profile.name.setText(user.name)
+                profile.password.setText(user.pin)
 
-            profile.simpan.text = getString(R.string.perbarui)
-            profile.simpan.setOnClickListener {
-                if(profile.username.isNotEmpty() && profile.mail.alertMail() && profile.name.isNotEmpty() && profile.password.isNotEmpty()) {
-                    val user = User(
-                        profile.username.toEditString(),
-                        profile.mail.toEditString(),
-                        profile.name.toEditString(),
-                        profile.password.toEditString()
-                    )
-                    try {
-                        requireContext().updateDBDefaultPrimary(User::class.java, user,
-                            requireContext().getPrefs().getLong(Constant.USER_LOGGED, 1))
-                        toasty(Toast.SUCCESS, R.string.profil_updated)
-                    } catch (e: Exception) {
-                        e.localizedMessage?.let { toasty(Toast.ERROR, it) }
+                profile.simpan.setOnClickListener {
+                    if(profile.username.isNotEmpty() && profile.mail.alertMail() && profile.name.isNotEmpty() && profile.password.isNotEmpty()) {
+                        val userNew = User(
+                            user.id, profile.username.toEditString(),
+                            profile.mail.toEditString(),
+                            profile.name.toEditString(),
+                            profile.password.toEditString()
+                        )
+
+                        lifecycleScope.launch {
+                            if(dao.isUsernameExist(profile.username.toEditString())) {
+                                toasty(
+                                    Toast.ERROR,
+                                    getString(
+                                        R.string.username_already_used,
+                                        profile.username.toEditString()
+                                    )
+                                )
+                            } else {
+                                dao.updateUser(userNew)
+                                toasty(Toast.SUCCESS,
+                                    R.string.profil_updated
+                                )
+                            }
+                        }
                     }
                 }
             }
+
+            profile.simpan.text = getString(R.string.perbarui)
 
             profile.keluar.visibility = visible
             profile.keluar.setOnClickListener {

@@ -17,9 +17,6 @@ object Libraries {
     private const val material = "com.google.android.material:material:${Versions.material}"
     private const val circleImage = "de.hdodenhof:circleimageview:${Versions.circleImage}"
     private const val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
-    private const val showCase = "com.tokopedia.tkpdlib:showcase-stepper:${Versions.showCase}"
-    private const val imageSlider = "com.github.smarteist:autoimageslider:${Versions.imageSlider}"
-    private const val MPChart = "com.github.PhilJay:MPAndroidChart:${Versions.MPChart}"
     // Network client
     private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     private const val retrofitGson  = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
@@ -27,12 +24,6 @@ object Libraries {
     //Others
     private const val dexter = "com.karumi:dexter:${Versions.dexter}"
     private const val commonFunction = "com.github.dodyac:commonFunction:${Versions.commonFunction}"
-    private const val sqliteZ = "com.github.dodyac:Sqlitez:${Versions.sqliteZ}"
-    private const val floatingSnackBar = "com.github.ankushyerawar:FloatingSnackBar:${Versions.floatingSnackBar}"
-    private const val dotsIndicator = "com.tbuonomo:dotsindicator:${Versions.dotsIndicator}"
-    private const val balloon = "com.github.skydoves:balloon:${Versions.balloon}"
-    private const val billingGoogle = "com.android.billingclient:billing-ktx:${Versions.billingGoogle}"
-    private const val finestUtil = "com.thefinestartist:utils:${Versions.finestUtil}"
     private const val shimmerView = "com.github.dodyac:ShimmerView:${Versions.shimmerView}"
     private const val materialDialog = "dev.shreyaspatil.MaterialDialog:MaterialDialog:${Versions.materialDialog}"
     //Dagger - Hilt
@@ -52,6 +43,11 @@ object Libraries {
     // Coroutines
     private const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     private const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
+    //Room
+    private const val room = "androidx.room:room-runtime:${Versions.room}"
+    private const val roomKapt = "androidx.room:room-compiler:${Versions.room}"
+    // Kotlin Extensions and Coroutines support for Room
+    private const val roomKtx =  "androidx.room:room-ktx:${Versions.room}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdlib)
@@ -64,9 +60,6 @@ object Libraries {
         add(circleImage)
         add(serviceLocation)
         add(lottie)
-        add(showCase)
-        add(imageSlider)
-        add(MPChart)
         add(retrofit)
         add(retrofitGson)
         add(logging)
@@ -74,12 +67,6 @@ object Libraries {
         add(dexter)
         add(retrofit)
         add(commonFunction)
-        add(sqliteZ)
-        add(floatingSnackBar)
-        add(dotsIndicator)
-        add(balloon)
-        add(billingGoogle)
-        add(finestUtil)
         add(shimmerView)
         add(daggerHilt)
         add(daggerHiltSupport)
@@ -91,6 +78,8 @@ object Libraries {
         add(ktxViewModelsLifecycle)
         add(kotlinCoroutinesCore)
         add(kotlinCoroutinesAndroid)
+        add(room)
+        add(roomKtx)
     }
 
     val testLibraries = arrayListOf<String>().apply {
@@ -103,6 +92,7 @@ object Libraries {
     }
 
     val kaptLibraries = arrayListOf<String>().apply {
+        add(roomKapt)
         add(daggerHiltKapt)
         add(hiltLifeCycleKapt)
         add(daggerHiltCompilerKapt)

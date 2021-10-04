@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.weather.FragmentWeather">
 
     <androidx.core.widget.NestedScrollView
@@ -52,7 +52,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/icon" />
 
             <com.acxdev.shimmer.widget.ShimmerText
-                android:id="@+id/date"
+                android:id="@+id/location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/x60dp"
@@ -60,9 +60,24 @@
                 android:layout_marginEnd="@dimen/x60dp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/white"
+                android:textSize="@dimen/text_extra_large"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/desc" />
+
+            <com.acxdev.shimmer.widget.ShimmerText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x60dp"
+                android:layout_marginTop="@dimen/x4dp"
+                android:layout_marginEnd="@dimen/x60dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/location" />
 
             <com.acxdev.shimmer.widget.ShimmerText
                 android:id="@+id/temp"

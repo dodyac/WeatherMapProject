@@ -17,6 +17,7 @@ import com.acxdev.commonFunction.util.view.IRecyclerView.Companion.set
 import com.acxdev.weathermapproject.R
 import com.acxdev.weathermapproject.adapter.RowWeather
 import com.acxdev.weathermapproject.common.BaseFragment
+import com.acxdev.weathermapproject.common.Constant
 import com.acxdev.weathermapproject.common.CurrentLocation
 import com.acxdev.weathermapproject.common.LocationListenerX
 import com.acxdev.weathermapproject.databinding.FragmentWeatherBinding
@@ -40,10 +41,10 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
 
         lifecycleScope.launchWhenStarted {
             weatherViewModel.getWeather.collect {
-                when(it) {
+                when (it) {
                     is WeatherViewModel.WeatherEvent.Success -> {
                         TransitionManager.beginDelayedTransition(binding.root)
-                        binding.date.text = it.weatherOneCallResponse.current.dt.toDateEpoch("EEE, MMM dd yyyy", Locale.ENGLISH)
+                        binding.date.text = it.weatherOneCallResponse.current.dt.toDateEpoch(Constant.FORMAT_DATE)
                         binding.temp.text = it.weatherOneCallResponse.current.temp.toCelcius()
                         val daily = it.weatherOneCallResponse.daily.toMutableList()
                         daily.removeFirst()
@@ -74,6 +75,7 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
         }
 
         binding.addCity.setOnClickListener {
+
         }
 
         initLocation()
@@ -83,13 +85,18 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
         CurrentLocation(requireActivity(), object : LocationListenerX {
             override fun getLocation(location: Location) {
                 try {
-                    val geoCoder = Geocoder(requireContext()).getFromLocation(location.latitude, location.longitude, 10)
+                    val geoCoder = Geocoder(requireContext()).getFromLocation(
+                        location.latitude,
+                        location.longitude,
+                        10
+                    )
                     val address = geoCoder[0]
                     val city = address.subAdminArea
                     val lng = location.longitude
                     val lat = location.latitude
+                    binding.location.text = city
 
-                    weatherViewModel.getWeather(-6.200000, 106.816666, "minutely,hourly")
+                    weatherViewModel.getWeather(lat, lng, Constant.EXCLUDE_OPEN_WEATHER_MAP)
                 } catch (e: Exception) {
                     e.localizedMessage?.let { toasty(Toast.ERROR, it) }
                 }

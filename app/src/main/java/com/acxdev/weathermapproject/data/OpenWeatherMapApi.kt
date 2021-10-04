@@ -1,6 +1,6 @@
 package com.acxdev.weathermapproject.data
 
-import com.acxdev.jakartaweather.data.model.WeatherOneCallResponse
+import com.acxdev.weathermapproject.data.model.weather.WeatherOneCallResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

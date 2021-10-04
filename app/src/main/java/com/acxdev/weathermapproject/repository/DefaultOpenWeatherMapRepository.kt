@@ -1,7 +1,7 @@
 package com.acxdev.weathermapproject.repository
 
 import com.acxdev.weathermapproject.data.OpenWeatherMapApi
-import com.acxdev.jakartaweather.data.model.WeatherOneCallResponse
+import com.acxdev.weathermapproject.data.model.weather.WeatherOneCallResponse
 import com.acxdev.weathermapproject.util.Resource
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.acxdev.jakartaweather.data.model
+package com.acxdev.weathermapproject.data.model.weather
 
 data class Weather(
     val id: Long,

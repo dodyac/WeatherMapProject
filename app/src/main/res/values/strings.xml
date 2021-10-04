@@ -30,4 +30,5 @@
     <string name="save">Simpan</string>
     <string name="tambahkan_kota">Tambahkan Kota</string>
     <string name="succesadded">Successfully Added</string>
+    <string name="username_already_used">Username %s telah digunakan</string>
 </resources>

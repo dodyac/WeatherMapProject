@@ -1,24 +1,14 @@
 package com.acxdev.weathermapproject.data.model
 
-class User {
-    var _id: Long? = null
-    var username: String = ""
-    var email: String = ""
-    var name: String = ""
-    var pin: String = ""
-    constructor()
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    constructor(
-        username: String,
-        email: String,
-        name: String,
-        pin: String,
-        _id: Long? = null
-    ) {
-        this.username = username
-        this.email = email
-        this.name = name
-        this.pin = pin
-        this._id = _id
-    }
-}
+@Entity
+data class User(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
+    var username: String,
+    var email: String,
+    var name: String,
+    var pin: String
+)

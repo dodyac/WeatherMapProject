@@ -15,6 +15,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
+    override val bindingInflater: (LayoutInflater) -> ViewBinding
+        get() = ActivityMainBinding::inflate
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,9 +27,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         mutableListFragment.add(Pair(getString(R.string.profil), FragmentProfile()))
         binding.viewPager.adapter = pager2Adapter
         pager2Adapter.setWithTab(mutableListFragment, binding.tabLayout, binding.viewPager)
-
     }
-
-    override val bindingInflater: (LayoutInflater) -> ViewBinding
-        get() = ActivityMainBinding::inflate
 }

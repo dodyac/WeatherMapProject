@@ -8,6 +8,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.util.IFunction.Companion.useCurrentTheme
+import com.acxdev.weathermapproject.data.UserDao
+import com.acxdev.weathermapproject.data.UserDatabase
 
 abstract class BaseActivity<out VB : ViewBinding> : AppCompatActivity() {
 
@@ -20,11 +22,13 @@ abstract class BaseActivity<out VB : ViewBinding> : AppCompatActivity() {
     protected val gone: Int = View.GONE
     protected val visible: Int = View.VISIBLE
 
+    protected lateinit var dao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         useCurrentTheme()
         super.onCreate(savedInstanceState)
         _binding = bindingInflater(layoutInflater)
+        dao = UserDatabase.getInstance(this).userDao
         setContentView(binding.root)
     }
 

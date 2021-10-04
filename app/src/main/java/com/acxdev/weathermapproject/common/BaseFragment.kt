@@ -8,11 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.acxdev.commonFunction.common.IConstant
 import com.acxdev.commonFunction.util.IFunction.Companion.useCurrentTheme
-import com.acxdev.commonFunction.util.Preference.Companion.getPrefs
-import com.acxdev.commonFunction.util.Preference.Companion.isLogged
-import com.acxdev.sqlitez.SqliteZAsset.Companion.readDB
-import com.acxdev.sqlitez.SqliteZAsset.Companion.readDBDefaultPrimary
-import com.acxdev.weathermapproject.data.model.User
+import com.acxdev.weathermapproject.data.UserDao
+import com.acxdev.weathermapproject.data.UserDatabase
 import com.google.gson.Gson
 
 abstract class BaseFragment<out VB : ViewBinding> : Fragment() {
@@ -25,15 +22,12 @@ abstract class BaseFragment<out VB : ViewBinding> : Fragment() {
 
     protected val gone: Int = View.GONE
     protected val visible: Int = View.VISIBLE
-
-    protected lateinit var user: User
+    protected lateinit var dao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requireContext().useCurrentTheme()
         super.onCreate(savedInstanceState)
-        if(requireContext().isLogged()) {
-            user = requireContext().readDB(User::class.java, requireContext().getPrefs().getLong(Constant.USER_LOGGED, 1L))
-        }
+        dao = UserDatabase.getInstance(requireContext()).userDao
     }
 
     override fun onCreateView(
