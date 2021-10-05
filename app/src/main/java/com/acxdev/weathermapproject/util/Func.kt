@@ -105,6 +105,11 @@ fun Double.toCelcius(): String {
     return "${String.format("%.2f", result)} °C"
 }
 
+fun Double.toCelciusRaw(): Float {
+    val result = minus(273.15)
+    return result.toFloat()
+}
+
 fun MaterialAutoCompleteTextView.setItem(list: List<String>) {
     val dataAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, list)
     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

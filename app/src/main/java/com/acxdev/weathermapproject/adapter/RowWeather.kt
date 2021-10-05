@@ -7,7 +7,6 @@ import com.acxdev.weathermapproject.common.Constant
 import com.acxdev.weathermapproject.databinding.RowWeatherBinding
 import com.acxdev.weathermapproject.util.setWeatherIcon
 import com.acxdev.weathermapproject.util.toCelcius
-import java.util.*
 
 class RowWeather(private val list: MutableList<Daily>) :
     BaseAdapter<RowWeatherBinding, Daily>(RowWeatherBinding::inflate, list) {

@@ -2,11 +2,8 @@ package com.acxdev.weathermapproject.ui.fragment.weather
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.acxdev.weathermapproject.data.model.weather.WeatherOneCallResponse
-import com.acxdev.weathermapproject.common.Constant
 import com.acxdev.weathermapproject.data.model.City
 import com.acxdev.weathermapproject.repository.CityRepository
-import com.acxdev.weathermapproject.repository.OpenWeatherMapRepository
 import com.acxdev.weathermapproject.util.DispatcherProvider
 import com.acxdev.weathermapproject.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

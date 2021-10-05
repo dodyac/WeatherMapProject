@@ -45,10 +45,10 @@ android {
 
 dependencies {
     implementationX(Libraries.appLibraries)
-    implementation("com.google.android.play:core-ktx:1.8.1")
-    implementation("com.google.android.flexbox:flexbox:3.0.0")
     kaptX(Libraries.kaptLibraries)
     coreLibraryDesugaring(Libraries.desugar)
+    implementation("io.github.lucapiccinelli:konad:1.2.5")
+    implementation("org.valiktor:valiktor-core:0.12.0")
 //    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
 //    testImplementation("com.squareup.leakcanary:leakcanary-android-no-op:2.7")
     androidTestImplementationX(Libraries.androidTestLibraries)

@@ -19,6 +19,7 @@ object Versions {
     const val fragmentKtx = "2.3.4"
     const val testJunit = "1.1.2"
     const val espressoCore = "3.3.0"
+    const val MPChart = "v3.1.0"
     const val material = "1.3.0"
     const val circleImage = "3.1.0"
     const val lottie = "4.0.0"

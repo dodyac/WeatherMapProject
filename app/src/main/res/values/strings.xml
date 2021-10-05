@@ -37,4 +37,8 @@
     <string name="currentPin">PIN saat ini</string>
     <string name="pinNew">PIN Baru</string>
     <string name="pin_updated">PIN Berhasil diperbarui</string>
+    <string name="temp">Temperature</string>
+    <string name="dewPoint">DewPoint</string>
+    <string name="humidity">Humidity</string>
+    <string name="grafik_temperature_dewpoint_dan_humidity">Grafik Temperature, DewPoint dan Humidity</string>
 </resources>

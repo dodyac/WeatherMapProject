@@ -5,6 +5,7 @@ import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.TransitionManager
@@ -21,13 +22,25 @@ import com.acxdev.weathermapproject.common.Constant
 import com.acxdev.weathermapproject.common.CurrentLocation
 import com.acxdev.weathermapproject.common.LocationListenerX
 import com.acxdev.weathermapproject.data.model.City
+import com.acxdev.weathermapproject.data.model.weather.Daily
 import com.acxdev.weathermapproject.databinding.FragmentWeatherBinding
 import com.acxdev.weathermapproject.util.setItem
 import com.acxdev.weathermapproject.util.setWeatherIcon
 import com.acxdev.weathermapproject.util.toCelcius
+import com.acxdev.weathermapproject.util.toCelciusRaw
 import com.airbnb.lottie.LottieDrawable
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import java.util.*
 
 @AndroidEntryPoint
 class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
@@ -57,6 +70,41 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
                         binding.humidity.text = "Humidity: ${it.weatherOneCallResponse.current.humidity.toPercent()}"
                         binding.desc.text = it.weatherOneCallResponse.current.weather[0].description.split(' ').joinToString(" ") { s ->
                             s.capitalize()
+                        }
+
+
+                        //Chart
+                        val dailyChart: List<Daily> = it.weatherOneCallResponse.daily
+
+                        val listTemp = dailyChart.map { day -> day.temp.day.toFloat() }
+                        val listDewPoint = dailyChart.map { day -> day.dew_point.toFloat() }
+                        val listHumidity = dailyChart.map { day -> day.humidity.toFloat() }
+                        val timeList = dailyChart.map { day -> day.dt.toDateEpoch(Constant.FORMAT_DATE_CHART, Locale.ENGLISH) }
+
+
+                        val temp = lineDataSetFilledDrawableWithReadable(getString(R.string.temp), listTemp, R.color.green, R.drawable.bg_fade_green)
+                        val dewPoint = lineDataSetFilledDrawableWithReadable(getString(R.string.dewPoint), listDewPoint, R.color.blue, R.drawable.bg_fade_blue)
+                        val humidity = lineDataSetFilledDrawableWithReadable(getString(R.string.humidity), listHumidity, R.color.yellow, R.drawable.bg_fade_yellow, false)
+
+                        val dataset = mutableListOf<ILineDataSet>()
+                        dataset.add(temp)
+                        dataset.add(dewPoint)
+                        dataset.add(humidity)
+                        binding.chart.applyStyle(timeList, dataset)
+
+                        binding.tempCheck.setOnCheckedChangeListener { _, isChecked ->
+                            if(isChecked) dataset.add(temp) else dataset.remove(temp)
+                            binding.chart.invalidate()
+                        }
+
+                        binding.dewPointCheck.setOnCheckedChangeListener { _, isChecked ->
+                            if(isChecked) dataset.add(dewPoint) else dataset.remove(dewPoint)
+                            binding.chart.invalidate()
+                        }
+
+                        binding.humidityCheck.setOnCheckedChangeListener { _, isChecked ->
+                            if(isChecked) dataset.add(humidity) else dataset.remove(humidity)
+                            binding.chart.invalidate()
                         }
                     }
                     is WeatherViewModel.WeatherEvent.Failure -> {
@@ -129,5 +177,61 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
             }
 
         }).getLastLocation()
+    }
+
+    private fun lineDataSetFilledDrawableWithReadable(
+        label: String,
+        list: List<Float?>,
+        color: Int,
+        filledColor: Int,
+        toCelcius: Boolean = true
+    ): ILineDataSet {
+        val entry = mutableListOf<Entry>()
+        for(i in list.indices) entry.add(Entry(i.toFloat(),
+            try {
+                if (toCelcius) list[i]!!.toFloat().toDouble().toCelciusRaw()
+                else list[i]!!.toFloat()
+            } catch (e: Exception){
+                0F
+            })
+        )
+        val lineDataSet = LineDataSet(entry, label)
+        lineDataSet.color = requireContext().getColor(color)
+        lineDataSet.lineWidth = 2F
+        lineDataSet.setDrawCircles(false)
+        lineDataSet.fillDrawable = AppCompatResources.getDrawable(requireContext(), filledColor)
+        lineDataSet.setDrawFilled(true)
+        lineDataSet.valueTextSize = 0F
+        lineDataSet.highLightColor = requireContext().getColor(android.R.color.transparent)
+        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        return lineDataSet
+    }
+
+    private fun LineChart.applyStyle(indexAxisValueFormatter: List<String>, dataset: MutableList<ILineDataSet>){
+        legend.isEnabled = false
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        legend.setDrawInside(false)
+
+        xAxis.valueFormatter = IndexAxisValueFormatter(indexAxisValueFormatter)
+        xAxis.granularity = 1F
+        xAxis.isGranularityEnabled = true
+        axisRight.isEnabled = false
+        axisLeft.textColor = context.getColor(R.color.text)
+        axisRight.textColor = context.getColor(R.color.text)
+        xAxis.textColor = context.getColor(R.color.text)
+
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        animateX(600, Easing.Linear)
+
+        axisRight.enableGridDashedLine(10F, 10F, 0F)
+        axisLeft.enableGridDashedLine(10F, 10F, 0F)
+        xAxis.setDrawGridLines(false)
+        axisLeft.setDrawAxisLine(false)
+        axisRight.setDrawAxisLine(false)
+        data = LineData(dataset)
+        description.isEnabled = false
+        invalidate()
     }
 }

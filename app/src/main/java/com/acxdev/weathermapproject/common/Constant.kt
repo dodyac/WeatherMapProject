@@ -9,6 +9,7 @@ object Constant {
     const val LOCATION_REQUEST_CODE = 11
     const val FORMAT_DAY = "EEEE"
     const val FORMAT_DATE = "EEE, MMM dd yyyy"
+    const val FORMAT_DATE_CHART = "MMM dd"
 
     const val EXCLUDE_OPEN_WEATHER_MAP = "minutely,hourly"
 }

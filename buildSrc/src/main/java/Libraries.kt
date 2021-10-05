@@ -17,6 +17,7 @@ object Libraries {
     private const val material = "com.google.android.material:material:${Versions.material}"
     private const val circleImage = "de.hdodenhof:circleimageview:${Versions.circleImage}"
     private const val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
+    private const val MPChart = "com.github.PhilJay:MPAndroidChart:${Versions.MPChart}"
     // Network client
     private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     private const val retrofitGson  = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
@@ -60,6 +61,7 @@ object Libraries {
         add(circleImage)
         add(serviceLocation)
         add(lottie)
+        add(MPChart)
         add(retrofit)
         add(retrofitGson)
         add(logging)

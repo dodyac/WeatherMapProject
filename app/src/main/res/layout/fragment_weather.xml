@@ -18,10 +18,10 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/searchTil"
                 style="@style/actStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/searchTil"
                 android:layout_margin="@dimen/x16dp"
                 android:hint="@string/find_city"
                 app:layout_constraintTop_toTopOf="parent"
@@ -29,8 +29,8 @@
                 app:startIconTint="@color/blue">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:layout_width="match_parent"
                     android:id="@+id/search"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -162,6 +162,73 @@
                 app:layout="@layout/row_weather"
                 app:layout_constraintTop_toBottomOf="@id/humidity"
                 app:layout_manager="grid" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/cardViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x16dp"
+                app:layout_constraintTop_toBottomOf="@+id/weather">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/x10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="@string/grafik_temperature_dewpoint_dan_humidity"
+                        android:textSize="@dimen/text_large"
+                        android:textStyle="bold" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
+
+                    <LinearLayout
+                        android:id="@+id/checkBoxLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/tempCheck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/green"
+                            android:checked="true"
+                            android:paddingStart="@dimen/x0dp"
+                            android:paddingEnd="@dimen/x4dp"
+                            android:text="@string/temp" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/dewPointCheck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/blue"
+                            android:checked="true"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="@dimen/x4dp"
+                            android:text="@string/dewPoint" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/humidityCheck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/yellow"
+                            android:checked="true"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="@dimen/x4dp"
+                            android:text="@string/humidity" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>
