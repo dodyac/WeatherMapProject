@@ -227,6 +227,11 @@
                             android:paddingEnd="@dimen/x4dp"
                             android:text="@string/humidity" />
                     </LinearLayout>
+
+                    <com.applandeo.materialcalendarview.CalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>

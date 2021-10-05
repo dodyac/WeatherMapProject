@@ -29,6 +29,7 @@ import com.acxdev.weathermapproject.util.setWeatherIcon
 import com.acxdev.weathermapproject.util.toCelcius
 import com.acxdev.weathermapproject.util.toCelciusRaw
 import com.airbnb.lottie.LottieDrawable
+import com.applandeo.materialcalendarview.EventDay
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
@@ -38,6 +39,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.util.*
@@ -72,7 +74,6 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
                             s.capitalize()
                         }
 
-
                         //Chart
                         val dailyChart: List<Daily> = it.weatherOneCallResponse.daily
 
@@ -105,6 +106,41 @@ class FragmentWeather : BaseFragment<FragmentWeatherBinding>() {
                         binding.humidityCheck.setOnCheckedChangeListener { _, isChecked ->
                             if(isChecked) dataset.add(humidity) else dataset.remove(humidity)
                             binding.chart.invalidate()
+                        }
+
+
+                        //Calendar
+
+                        binding.calendarView.apply {
+                            val calendarList = dailyChart.map { day -> day.dt }
+                            val tempList = dailyChart.map { day -> day.weather[0].description }
+                            val eventDay = mutableListOf<EventDay>()
+                            for (i in calendarList.indices){
+                                val calendar = Calendar.getInstance()
+                                val timestamp = calendarList[i] * 1000
+                                calendar.time = Date(timestamp)
+                                val drawable =  when (tempList[i]) {
+                                    "broken clouds" -> R.drawable.icons8_cloud_lightning
+                                    "light rain" -> R.drawable.icons8_rain_cloud
+                                    "overcast clouds" -> R.drawable.icons8_rain_cloud_2
+                                    "moderate rain" -> R.drawable.icons8_rain
+                                    "few clouds" -> R.drawable.icons8_cloud
+                                    "heavy intensity rain" -> R.drawable.icons8_rainfall
+                                    "clear sky" -> R.drawable.icons8_onedrive
+                                    "scattered clouds" -> R.drawable.icons8_onedrive
+                                    "fog" -> R.drawable.icons8_fog
+                                    else -> R.drawable.icons8_partly_cloudy_day
+                                }
+                                eventDay.add(EventDay(calendar, drawable))
+                            }
+                            setEvents(eventDay)
+                            setOnDayClickListener { event ->
+                                val timestamp = event.calendar.timeInMillis / 1000
+                                val s = dailyChart.find { day -> day.dt.toDateEpoch(Constant.FORMAT_DAY) == timestamp.toDateEpoch(Constant.FORMAT_DAY) }
+                                    ?.weather?.get(0)?.description
+                                s?.let { it1 -> toasty(Toast.INFO, it1) }
+                            }
+                            showCurrentMonthPage()
                         }
                     }
                     is WeatherViewModel.WeatherEvent.Failure -> {

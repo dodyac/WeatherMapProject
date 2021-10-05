@@ -49,6 +49,7 @@ dependencies {
     coreLibraryDesugaring(Libraries.desugar)
     implementation("io.github.lucapiccinelli:konad:1.2.5")
     implementation("org.valiktor:valiktor-core:0.12.0")
+    implementation("com.applandeo:material-calendar-view:1.7.0")
 //    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.7")
 //    testImplementation("com.squareup.leakcanary:leakcanary-android-no-op:2.7")
     androidTestImplementationX(Libraries.androidTestLibraries)
